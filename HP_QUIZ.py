@@ -78,6 +78,10 @@ def ask_YN():
         else:
             print("Your response is not clear, try again. ")
 
+def limit(string):
+    if len(string)>10:
+        string = input("Please enter a username that does not exceed 10 characters: ")
+    return string
 
 def open_read(file):
     with open(file, 'r') as csv_file:
@@ -402,6 +406,7 @@ def leaderboard():
 save_score = ask_YN()
 if save_score:
     username = input("Enter a username: ")
+    username = limit(username)
     field_names = ['username', 'score', 'out_of', 'percentage']
     new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
     f_name = "scores.csv"
