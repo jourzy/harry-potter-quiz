@@ -1,0 +1,48 @@
+			>>> Harry Potter Quiz - Your Questions and Answers <<< 
+
+date: 22-01-2024
+
+1. Is Godelot a staff member at Hogwarts?
+		your answer: True
+		correct answer: False
+
+2. Is Orla Quirke a student at Hogwarts?
+		your answer: True
+		correct answer: True
+
+3. Is Saul Croaker a staff member at Hogwarts?
+		your answer: True
+		correct answer: False
+
+4. Is Zacharias Smith a staff member at Hogwarts?
+		your answer: True
+		correct answer: False
+
+5. The wood type of Victor Krum's wand is: ash
+		your answer: True
+		correct answer: False
+
+6. Is Mulciber a wizard?
+		your answer: True
+		correct answer: True
+
+7. Is Quentin Trimble a wizard?
+		your answer: True
+		correct answer: True
+
+8. The wood type of Neville Longbottom's wand is: yew
+		your answer: True
+		correct answer: False
+
+9. Is Marius a student at Hogwarts?
+		your answer: True
+		correct answer: False
+
+10. Is Eloise Midgen a wizard?
+		your answer: True
+		correct answer: True
+
+
+You scored 4 out of 10.
+Some progress made but Professor McGonagall would not be impressed. 
+Revise your History of Magic!
