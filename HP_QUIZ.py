@@ -225,30 +225,33 @@ def is_alt_name(chars):
 
 def is_wand_wood(chars):
     # asks if a given wood type is used in a particular wizard's wand, True or False
-    rd.shuffle(chars)
+    chs = chars[:]
+    rd.shuffle(chs)
 
-    ind = 0
+    i = 0
     while True:
-        if chars[ind]['wand'] == []:
-            ind += 1
+        if chs[i]['wand']['wood'] == '':
+            i += 1
         else:
-            if chars[ind]['wand']['wood'] == []:
-                ind += 1
-            else:
-                break
-    char = chars[ind]
-
-    while True:
-        if rd.choice(all_values['wand'])['wood']:
-            other_wand_wood = rd.choice(all_values['wand'])['wood']
             break
 
-    rand_wand_wood = rd.choice(other_wand_wood + char['wand']['wood'])
+    char = chs[i]
+
+    # ind = CAN pass back index, but need to calculate correctly
+    # in reference to chars_left - TRY
+
+    while True:
+        option = rd.choice(all_values['wand'])['wood']
+        if option != '' and option != char['wand']['wood']:
+            other_wand_wood = option
+            break
+
+    rand_wand_wood = rd.choice([other_wand_wood, char['wand']['wood']])
     question = f"The wood type of {char['name']}'s wand is: {rand_wand_wood}"
     print("QUESTION: " + question)
     given = ask_TF()
     actual = rand_wand_wood == char['wand']['wood']
-    return [question, given, actual, check_ans(given, actual), ind]
+    return [question, given, actual, check_ans(given, actual), None]
 
 
 #----- importing and organizing HP characters data to be used in quiz
