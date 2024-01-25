@@ -24,7 +24,8 @@ def ask_TF():
 
 
 def check_ans(given, actual):
-    # compares the given response to the actual answer, returns boolean stating if response is correct
+    # compares the given response to the actual answer,
+    # returns bool stating if response is correct
     if given == actual:
         print("\t>>> Correct! :D")
         return True
@@ -85,7 +86,7 @@ def sort_data(data):
 
 def no_in_LB(data):
     # Leaderboard helper function
-    # Ensures that the leaderboard has a maximum of 10 entries or less.
+    # Ensures that the leaderboard has a maximum of 10 entries
     if len(data)>10:
         return 10
     else:
@@ -93,9 +94,9 @@ def no_in_LB(data):
 
 
 def display_LB(data):
-    print("\n***************   LEADERBOARD  ***************\n")
+    print("\n***************  LEADERBOARD  ***************\n")
     for x in range(no_in_LB(data)):
-        print(f"{x+1}: {data[x]['username']:<20}Score:{data[x]['score']}/{data[x]['out_of']:<20}Percentage: {data[x]['percentage']:<20}\n")
+        print(f"{x + 1:2}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']:<8}Percentage: {data[x]['percentage']:<20}\n")
 
 
 #-----  all question types, each with the following form:
