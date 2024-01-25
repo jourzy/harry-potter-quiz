@@ -23,40 +23,6 @@ def ask_TF():
             print("Your response is not clear, try again. ")
 
 
-def ask_MC():
-    # asks for A, B, C, or D input until a clear answer is provided, returns choice as string
-    while True:
-        ans = input("Enter 'A', 'B', 'C' or 'D' to indicate your answer: ").upper()
-        if ('A' in ans) and not (('B' in ans) or ('C' in ans) or ('D' in ans)):
-            print("Your answer: A")
-            return 'A'
-        elif ('B' in ans) and not (('A' in ans) or ('C' in ans) or ('D' in ans)):
-            print("Your answer: B")
-            return 'B'
-        elif ('C' in ans) and not (('B' in ans) or ('A' in ans) or ('D' in ans)):
-            print("Your answer: C")
-            return 'C'
-        elif ('D' in ans) and not (('B' in ans) or ('C' in ans) or ('A' in ans)):
-            print("Your answer: D")
-            return 'D'
-        else:
-            print("Your response is not clear, try again. ")
-
-
-def mix_MC(ans, x, y, z):
-    lst = [ans, x, y, z]
-    rd.shuffle(lst)
-    actual_ind = lst.index(ans)
-    actual = ['A', 'B', 'C', 'D'][actual_ind]
-    A, B, C, D = lst
-    return A, B, C, D, actual
-
-
-def print_MC(q, A, B, C, D):
-    # asks for true or false input until a clear answer is provided, returns choice as boolean
-    return f"{q}\n\tA: {A}\n\tB: {B}\n\tC: {C}\n\tD: {D}"
-
-
 def check_ans(given, actual):
     # compares the given response to the actual answer, returns boolean stating if response is correct
     if given == actual:
