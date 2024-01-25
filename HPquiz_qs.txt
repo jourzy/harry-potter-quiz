@@ -2,26 +2,46 @@
 
 date: 25-01-2024
 
-1. One of Wilhelmina Grubbly-Plank's alternate names is: Weatherby
+1. Is Pyotr Vulchanov a wizard?
+		your answer: True
+		correct answer: True
+
+2. Is Graham Pritchard a wizard?
+		your answer: True
+		correct answer: True
+
+3. The wood type of Minerva McGonagall's wand is: mahogany
 		your answer: True
 		correct answer: False
 
-2. Is Fluffy a student at Hogwarts?
-		your answer: False
-		correct answer: False
-
-3. One of Sirius Black's alternate names is: Loony Lovegood
-		your answer: False
-		correct answer: False
-
-4. Is Lev Zograf a student at Hogwarts?
-		your answer: False
-		correct answer: False
-
-5. Is Adrian Pucey in Slytherin house?
-		your answer: False
+4. Is Zacharias Smith a student at Hogwarts?
+		your answer: True
 		correct answer: True
 
+5. Is Buckbeak a staff member at Hogwarts?
+		your answer: False
+		correct answer: False
 
-You scored 3 out of 5.
-What a fine wizard you are! You can learn Harry Potter trivia quicker than a Nimbus 2000!
+6. The wood type of Cedric Diggory's wand is: ash
+		your answer: True
+		correct answer: True
+
+7. One of Ludo Bagman's alternate names is: Ludovic Bagman
+		your answer: True
+		correct answer: True
+
+8. Is Colin Creevey a staff member at Hogwarts?
+		your answer: False
+		correct answer: False
+
+9. Is Vindictus Viridian a student at Hogwarts?
+		your answer: False
+		correct answer: False
+
+10. Kingsley Shacklebolt's patronus is a/an: wolf
+		your answer: True
+		correct answer: False
+
+
+You scored 8 out of 10.
+Incendio! This witch is on fire! You just scored A* in all your O.W.Ls!
