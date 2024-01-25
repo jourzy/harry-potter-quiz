@@ -34,11 +34,11 @@ def check_ans(given, actual):
         return False
 
 
-### modify to remove custom text?
-def ask_YN():
+def ask_YN(msg = ""):
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
     while True:
-        ans = input("\nWould you like to save your score? Y/N: ").upper()
+        print(msg, end=" ")
+        ans = input("Y/N: ").upper()
         if ('Y' in ans) and not ('N' in ans):
             return True
         elif ('N' in ans) and not ('Y' in ans):
@@ -48,6 +48,7 @@ def ask_YN():
 
 
 ### modify to remove custom text?
+### will need to modify here and a bit more at game end
 def limit(string, max):
     if len(string) > max:
         string = input(f"Please enter a username that does not exceed {max} characters: ")
@@ -378,9 +379,12 @@ f_name = "scores.csv"
 field_names = ['username', 'score', 'out_of', 'percentage']
 
 # If user wants to log their scores
-save_score = ask_YN()
+msg1 = "Would you like to save your score?"
+
+save_score = ask_YN(msg1)
+
 if save_score:
-    username = input("Enter a username: ")
+    username = input("\nEnter a username: ")
     username = limit(username, 10)
     new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
     log_score(f_name, new_data)
