@@ -34,6 +34,7 @@ def check_ans(given, actual):
         return False
 
 
+### modify to remove custom text?
 def ask_YN():
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
     while True:
@@ -46,6 +47,7 @@ def ask_YN():
             print("Your response is not clear, try again. ")
 
 
+### modify to remove custom text?
 def limit(string, max):
     if len(string) > max:
         string = input(f"Please enter a username that does not exceed {max} characters: ")
@@ -298,7 +300,7 @@ while True:
 
 # initializing score and starting round
 score = 0
-roundx = 1
+round_ = 1
 
 # creating selection of questions
 questions = rd.choices(question_types, k = max_rounds)
@@ -306,23 +308,20 @@ questions = rd.choices(question_types, k = max_rounds)
 # going through questions
 for question in questions:
 
-    if roundx == max_rounds:
-        print(f"\n***** Round {roundx} - Last One! *****")
+    if round_ == max_rounds:
+        print(f"\n***** Round {round_} - Last One! *****")
     else:
-        print(f"\n***** Round {roundx} *****")
+        print(f"\n***** Round {round_} *****")
 
-    if question in [is_wand_wood]:  # ADD MC_species when done
-        q, given, actual, bool, ind = question(characters)
-    else:
-        q, given, actual, bool, ind = question(chars_left)
+    q, given, actual, bool, ind = question(chars_left)
 
-    qs_add = f"{roundx}. {q}\n\t\tyour answer: {str(given)}\n\t\tcorrect answer: {str(actual)}\n\n"
+    qs_add = f"{round_}. {q}\n\t\tyour answer: {str(given)}\n\t\tcorrect answer: {str(actual)}\n\n"
     qs_txt += qs_add
 
     if bool:
         score += 1
 
-    roundx += 1
+    round_ += 1
 
     if ind is not None:
         chars_left.pop(ind)
