@@ -44,10 +44,12 @@ def ask_YN():
         else:
             print("Your response is not clear, try again. ")
 
-def limit(string):
-    if len(string)>10:
-        string = input("Please enter a username that does not exceed 10 characters: ")
+
+def limit(string, max):
+    if len(string) > max:
+        string = input(f"Please enter a username that does not exceed {max} characters: ")
     return string
+
 
 def open_read(file):
     with open(file, 'r') as csv_file:
@@ -253,7 +255,7 @@ all_keys = characters[0].keys()
 
 
 # copying characters list and shuffling to randomize
-# can remove characters after being used in a question
+# will remove characters after being used in a question
 chars_left = characters[:]
 rd.shuffle(chars_left)
 
@@ -266,7 +268,6 @@ for key in all_keys:
         if character[key] != '' and character[key] not in values:
             values.append(character[key])
     all_values.update({key: values})
-    # print(key, values)
 
 
 #----- setting up for game play (questions types, files to write)
@@ -379,7 +380,7 @@ field_names = ['username', 'score', 'out_of', 'percentage']
 save_score = ask_YN()
 if save_score:
     username = input("Enter a username: ")
-    username = limit(username)
+    username = limit(username, 10)
     new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
     log_score(f_name, new_data)
 
