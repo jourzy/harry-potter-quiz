@@ -320,11 +320,13 @@ for question in questions:
 
     if bool:
         score += 1
-
     round_ += 1
 
-    if ind is not None:
-        chars_left.pop(ind)
+    chars_left.pop(ind)
+    if len(chars_left) < 100:
+        chars_left = characters[:]
+        rd.shuffle(chars_left)
+
 
 # after final round
 end_text = f"\nYou scored {score} out of {max_rounds}."
