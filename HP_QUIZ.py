@@ -94,6 +94,7 @@ def no_in_LB(data):
 
 
 def display_LB(data):
+    # displays leaderboard
     print("\n***************  LEADERBOARD  ***************\n")
     for x in range(no_in_LB(data)):
         print(f"{x + 1:2}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']:<8}Percentage: {data[x]['percentage']:<20}\n")
@@ -205,9 +206,7 @@ def is_wand_wood(chars):
             break
 
     char = chs[i]
-
-    # ind = CAN pass back index, but need to calculate correctly
-    # in reference to chars_left - TRY
+    ind = chars.index(char)
 
     while True:
         option = rd.choice(all_values['wand'])['wood']
@@ -220,7 +219,7 @@ def is_wand_wood(chars):
     print("QUESTION: " + question)
     given = ask_TF()
     actual = rand_wand_wood == char['wand']['wood']
-    return [question, given, actual, check_ans(given, actual), None]
+    return [question, given, actual, check_ans(given, actual), ind]
 
 
 #----- importing and organizing HP characters data to be used in quiz
