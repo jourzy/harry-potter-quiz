@@ -1,6 +1,6 @@
 # Harry Potter Characters Quiz
 
-authors:
+*authors:*
 [Katarzyna Sowka](https://www.linkedin.com/in/k-sowka/) 
 ([katsowka](https://github.com/katsowka)),
 [Emma Jourzac](https://www.linkedin.com/in/emma-jourzac-1226601/) (jourzy)
