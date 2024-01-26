@@ -1,4 +1,4 @@
-#----- importing libraries
+# ----- importing libraries
 
 import random as rd
 import requests as rq
@@ -6,7 +6,7 @@ import datetime
 import csv
 
 
-#----- basic helper functions
+# ----- basic helper functions
 
 
 def ask_TF():
@@ -36,6 +36,7 @@ def check_ans(given, actual):
 
 def ask_YN(msg = ""):
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
+    # 'msg' is optional string input to be printed before the 'Y/N:' input request
     while True:
         print(msg, end=" ")
         ans = input("Y/N: ").upper()
@@ -103,7 +104,9 @@ def display_LB(data):
         print(f"{x + 1:2}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']:<8}Percentage: {data[x]['percentage']:<20}\n")
 
 
-#-----  all question types, each with the following form:
+# -----  all question types
+
+# format of each question:
 
 # INPUT: lst (shuffled list of remaining characters or full list of characters)
 
@@ -111,8 +114,8 @@ def display_LB(data):
 # str ('question' being asked)
 # str or bool (the answer 'given' by user)
 # str or bool (the 'actual' / correct answer)
-# bool ('is_correct')
-# int (index 'ind' to remove from characters list, None if not removing one)
+# bool (stating if 'is_correct')
+# int (index 'ind' to remove from characters list)
 
 
 def is_student(chars):
@@ -154,7 +157,8 @@ def is_house(chars):
         else:
             break
     char = chars_left[ind]
-    rand_house = rd.choice(all_values['house']+[char['house']]) # 2 in 5 chance correct
+    # setting rand_house to have 2 in 5 chance of being correct
+    rand_house = rd.choice(all_values['house']+[char['house']])
     question = f"Is {char['name']} in {rand_house} house?"
     print("QUESTION: " + question)
     given = ask_TF()
@@ -171,7 +175,8 @@ def is_patronus(chars):
         else:
             break
     char = chars_left[ind]
-    rand_patronus = rd.choice(rd.sample(all_values['patronus'], k = 3) + [char['patronus']])
+    # setting rand_patronus to have about 1 in 3 chance of being correct
+    rand_patronus = rd.choice(rd.sample(all_values['patronus'], k=3) + [char['patronus']])
     question = f"{char['name']}'s patronus is a/an: {rand_patronus}"
     print("QUESTION: " + question)
     given = ask_TF()
@@ -188,6 +193,7 @@ def is_alt_name(chars):
         else:
             break
     char = chars[ind]
+    # setting rand_alt_name to have about 1 in 2 chance of being correct
     rand_alt_name = rd.choice(rd.choice(all_values['alternate_names'])+char['alternate_names'])
     question = f"One of {char['name']}'s alternate names is: {rand_alt_name}"
     print("QUESTION: " + question)
@@ -217,6 +223,7 @@ def is_wand_wood(chars):
             other_wand_wood = option
             break
 
+    # rand_wand_wood has 1 in 2 chance of being correct
     rand_wand_wood = rd.choice([other_wand_wood, char['wand']['wood']])
     question = f"The wood type of {char['name']}'s wand is: {rand_wand_wood}"
     print("QUESTION: " + question)
@@ -225,7 +232,7 @@ def is_wand_wood(chars):
     return [question, given, actual, check_ans(given, actual), ind]
 
 
-#----- importing and organizing HP characters data to be used in quiz
+# ----- importing and organizing HP characters data to be used in quiz
 
 
 # importing Harry Potter characters data using API
@@ -273,12 +280,12 @@ for key in all_keys:
     all_values.update({key: values})
 
 
-#----- setting up for game play (questions types, files to write)
+# ----- setting up for game play (questions types, files to write)
 
 
 # list of question types to be chosen from randomly
-question_types = [is_student, is_staff, is_wizard, is_house, is_patronus, is_alt_name, is_wand_wood]
-
+# question_types = [is_student, is_staff, is_wizard, is_house, is_patronus, is_alt_name, is_wand_wood]
+question_types = [is_alt_name]
 
 # for writing question and answers file
 today = datetime.datetime.now()
