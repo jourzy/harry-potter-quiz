@@ -101,7 +101,8 @@ def display_LB(data):
     # displays leaderboard
     print("\n***************  LEADERBOARD  ***************\n")
     for x in range(no_in_LB(data)):
-        print(f"{x + 1:2}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']:<8}Percentage: {data[x]['percentage']:<20}\n")
+        print(f"{x + 1:3}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']} = {data[x]['percentage']}%\n")
+
 
 
 # -----  all question types
