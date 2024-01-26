@@ -1,4 +1,7 @@
 /leaderboard.csv
 /scores.csv
 /*.txt
-
+/.vscode
+/env
+/archive
+/.idea

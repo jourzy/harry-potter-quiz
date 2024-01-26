@@ -386,21 +386,22 @@ def leaderboard():
 f_name = "scores.csv"
 field_names = ['username', 'score', 'out_of', 'percentage']
 
-# If user wants to log their scores
-msg1 = "Would you like to save your score?"
+# Restrict score save to 5 or more rounds
+if max_rounds >= 5:
+    # If user wants to log their scores
+    msg1 = "Would you like to save your score?"
 
-save_score = ask_YN(msg1)
+    save_score = ask_YN(msg1)
 
-if save_score:
-    username = input("\nEnter a username: ")
-    username = limit(username, 10)
-    new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
-    log_score(f_name, new_data)
+    if save_score:
+        username = input("\nEnter a username: ")
+        username = limit(username, 10)
+        new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
+        log_score(f_name, new_data)
+
+else:
+    print("\nIf you play five rounds or more next time you might see your score on the leaderboard!")
 
 # Display leaderboard
 leaderboard()
-
-
-
-
 
