@@ -284,8 +284,7 @@ for key in all_keys:
 
 
 # list of question types to be chosen from randomly
-# question_types = [is_student, is_staff, is_wizard, is_house, is_patronus, is_alt_name, is_wand_wood]
-question_types = [is_alt_name]
+question_types = [is_student, is_staff, is_wizard, is_house, is_patronus, is_alt_name, is_wand_wood]
 
 # for writing question and answers file
 today = datetime.datetime.now()
@@ -293,7 +292,7 @@ date_short = today.strftime("%d-%m-%Y")
 qs_txt = f"\t\t\t>>> Harry Potter Quiz - Your Questions and Answers <<< \n\ndate: {date_short}\n\n"
 
 
-#-----  game play
+# ----- game play
 
 
 # asking number of rounds
@@ -360,7 +359,7 @@ with open('HPquiz_qs.txt', 'w') as file:
 print("\nSee the file HPquiz_qs.txt if you'd like to see your questions and answers.")
 
 
-#-----  leaderboard
+# ----- leaderboard
 
 
 def log_score(file, add_data):
@@ -373,6 +372,7 @@ def log_score(file, add_data):
     # if the file doesn't exist:
     except (IOError, FileNotFoundError) as e:
         open_write(f_name, add_data)
+
 
 def leaderboard():
     data = open_read(f_name)
