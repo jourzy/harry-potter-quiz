@@ -400,7 +400,7 @@ if max_rounds >= 5:
         log_score(f_name, new_data)
 
 else:
-    print("\nIf you play five rounds or more next time you might see your score on the leaderboard!")
+    print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
 
 # Display leaderboard
 leaderboard()
