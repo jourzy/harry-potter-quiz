@@ -5,9 +5,7 @@ import requests as rq
 import datetime
 import csv
 
-
 # ----- basic helper functions
-
 
 def ask_TF():
     # asks for true or false input until a clear answer is provided, returns choice as boolean
@@ -22,7 +20,6 @@ def ask_TF():
         else:
             print("Your response is not clear, try again. ")
 
-
 def check_ans(given, actual):
     # compares the given response to the actual answer,
     # returns bool stating if response is correct
@@ -32,7 +29,6 @@ def check_ans(given, actual):
     else:
         print("\t>>> Sorry, wrong answer. :(")
         return False
-
 
 def ask_YN(msg = ""):
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
@@ -46,62 +42,6 @@ def ask_YN(msg = ""):
             return False
         else:
             print("Your response is not clear, try again. ")
-
-
-### modify to remove custom text?
-### will need to modify here and a bit more at game end
-def limit(string, max):
-    if len(string) > max:
-        string = input(f"Please enter a username that does not exceed {max} characters: ")
-    return string
-
-
-def open_read(file):
-    with open(file, 'r') as csv_file:
-        spreadsheet = csv.DictReader(csv_file)
-        data = []
-        for row in spreadsheet:
-            data.append(row)
-    return data
-
-
-def open_write(file, data):
-    with open(file, 'w') as csv_file:
-        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names, lineterminator='\n')
-        spreadsheet.writeheader()
-        spreadsheet.writerows(data)
-
-
-def to_integer(data):
-    # Leaderboard helper function.
-    # Casts values for out_of and percentage to integer so they can be sorted
-    for each in data:
-        each['percentage'] = int(each['percentage'])
-        each['out_of'] = int(each['out_of'])
-    return data
-
-
-def sort_data(data):
-    # Leaderboard helper function
-    # Sorts the scores by number of rounds column and then by percentage column
-    sorted_data = sorted(sorted(data, key=lambda x: x['out_of'], reverse=True), key=lambda x: x['percentage'], reverse=True)
-    return sorted_data
-
-
-def no_in_LB(data):
-    # Leaderboard helper function
-    # Ensures that the leaderboard has a maximum of 10 entries
-    if len(data)>10:
-        return 10
-    else:
-        return len(data)
-
-
-def display_LB(data):
-    # displays leaderboard
-    print("\n***************  LEADERBOARD  ***************\n")
-    for x in range(no_in_LB(data)):
-        print(f"{x + 1:3}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']} = {data[x]['percentage']}%\n")
 
 
 
@@ -295,72 +235,102 @@ qs_txt = f"\t\t\t>>> Harry Potter Quiz - Your Questions and Answers <<< \n\ndate
 
 # ----- game play
 
+def no_of_rounds():
+    # asking number of rounds
+    while True:
+        num = input("\n>>> Welcome to the Harry Potter Characters Quiz! <<< "
+                    "\n\nHow many rounds would you like to play? ").strip()
+        if not num.isdigit() or int(num) not in range(1, 51):
+            print("You can play 1 to 50 rounds. Please enter a number in that range.")
+        else:
+            max_rounds = int(num)
+            break
+    return max_rounds
 
-# asking number of rounds
-while True:
-    num = input("\n>>> Welcome to the Harry Potter Characters Quiz! <<< "
-                "\n\nHow many rounds would you like to play? ").strip()
-    if not num.isdigit() or int(num) not in range(1, 51):
-        print("You can play 1 to 50 rounds. Please enter a number in that range.")
+def play(chars_left, qs_txt):
+    # initializing score and starting round
+    score = 0
+    round_ = 1
+
+    # creating selection of questions
+    questions = rd.choices(question_types, k = max_rounds)
+
+    # going through questions
+    for question in questions:
+        if round_ == max_rounds:
+            print(f"\n***** Round {round_} - Last One! *****")
+        else:
+            print(f"\n***** Round {round_} *****")
+
+        q, given, actual, bool, ind = question(chars_left)
+
+        qs_add = f"{round_}. {q}\n\t\tyour answer: {str(given)}\n\t\tcorrect answer: {str(actual)}\n\n"
+        qs_txt += qs_add
+
+        if bool:
+            score += 1
+        round_ += 1
+
+        chars_left.pop(ind)
+        if len(chars_left) < 100:
+            chars_left = characters[:]
+            rd.shuffle(chars_left)
+
+    return score, qs_txt
+
+def result(score, qs_txt):
+    # after final round
+    end_text = f"\nYou scored {score} out of {max_rounds}."
+    p_cent = round(score / max_rounds * 100)
+    if p_cent > 75:
+        end_text += "\nIncendio! This witch is on fire! You just scored A* in all your O.W.Ls!"
+    elif p_cent > 50:
+        end_text += "\nWhat a fine wizard you are! You can learn Harry Potter trivia quicker than a Nimbus 2000!"
+    elif p_cent > 25:
+        end_text += ("\nSome progress made but Professor McGonagall would not be impressed. "
+                     "\nRevise your History of Magic!")
     else:
-        max_rounds = int(num)
-        break
+        end_text += ("\nHave you even read Harry Potter? Poor effort young wizard. "
+                     "\nGo back to Hogwarts School of Witchcraft and Wizardry for a catch up class!")
 
-# initializing score and starting round
-score = 0
-round_ = 1
+    print(end_text)
 
-# creating selection of questions
-questions = rd.choices(question_types, k = max_rounds)
+    qs_txt += f"{end_text}"
 
-# going through questions
-for question in questions:
+    with open('HPquiz_qs.txt', 'w') as file:
+        file.write(qs_txt)
 
-    if round_ == max_rounds:
-        print(f"\n***** Round {round_} - Last One! *****")
-    else:
-        print(f"\n***** Round {round_} *****")
+    print("\nSee the file HPquiz_qs.txt if you'd like to see your questions and answers.")
 
-    q, given, actual, bool, ind = question(chars_left)
-
-    qs_add = f"{round_}. {q}\n\t\tyour answer: {str(given)}\n\t\tcorrect answer: {str(actual)}\n\n"
-    qs_txt += qs_add
-
-    if bool:
-        score += 1
-    round_ += 1
-
-    chars_left.pop(ind)
-    if len(chars_left) < 100:
-        chars_left = characters[:]
-        rd.shuffle(chars_left)
+    return p_cent
 
 
-# after final round
-end_text = f"\nYou scored {score} out of {max_rounds}."
-p_cent = round(score / max_rounds * 100)
-if p_cent > 75:
-    end_text += "\nIncendio! This witch is on fire! You just scored A* in all your O.W.Ls!"
-elif p_cent > 50:
-    end_text += "\nWhat a fine wizard you are! You can learn Harry Potter trivia quicker than a Nimbus 2000!"
-elif p_cent > 25:
-    end_text += ("\nSome progress made but Professor McGonagall would not be impressed. "
-                 "\nRevise your History of Magic!")
-else:
-    end_text += ("\nHave you even read Harry Potter? Poor effort young wizard. "
-                 "\nGo back to Hogwarts School of Witchcraft and Wizardry for a catch up class!")
+f_name = "scores.csv"
+field_names = ['username', 'score', 'out_of', 'percentage']
 
-print(end_text)
+# ----- score functions
 
-qs_txt += f"{end_text}"
+### modify to remove custom text?
+### will need to modify here and a bit more at game end
+def limit(string, max):
+    if len(string) > max:
+        string = input(f"Please enter a username that does not exceed {max} characters: ")
+    return string
 
-with open('HPquiz_qs.txt', 'w') as file:
-    file.write(qs_txt)
-
-print("\nSee the file HPquiz_qs.txt if you'd like to see your questions and answers.")
+def open_read(file):
+    with open(file, 'r') as csv_file:
+        spreadsheet = csv.DictReader(csv_file)
+        data = []
+        for row in spreadsheet:
+            data.append(row)
+    return data
 
 
-# ----- leaderboard
+def open_write(file, data):
+    with open(file, 'w') as csv_file:
+        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names, lineterminator='\n')
+        spreadsheet.writeheader()
+        spreadsheet.writerows(data)
 
 
 def log_score(file, add_data):
@@ -374,8 +344,60 @@ def log_score(file, add_data):
     except (IOError, FileNotFoundError) as e:
         open_write(f_name, add_data)
 
+def scores(file, fieldnames):
+    # Restrict score save to 5 or more rounds
+    if max_rounds >= 5:
+        # If user wants to log their scores
+        msg1 = "\nWould you like to save your score?"
 
-def leaderboard():
+        save_score = ask_YN(msg1)
+
+        if save_score:
+            username = input("\nEnter a username: ")
+            username = limit(username, 10)
+            new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
+            log_score(f_name, new_data)
+
+    else:
+        print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
+
+    return file
+
+# ----- leaderboard functions
+
+def to_integer(data):
+    # Leaderboard helper function.
+    # Casts values for out_of and percentage to integer so they can be sorted
+    for each in data:
+        each['percentage'] = int(each['percentage'])
+        each['out_of'] = int(each['out_of'])
+    return data
+
+
+def sort_data(data):
+    # Leaderboard helper function
+    # Sorts the scores by number of rounds column and then by percentage column
+    sorted_data = sorted(sorted(data, key=lambda x: x['out_of'], reverse=True), key=lambda x: x['percentage'], reverse=True)
+    return sorted_data
+
+
+def no_in_LB(data):
+    # Leaderboard helper function
+    # Ensures that the leaderboard has a maximum of 10 entries
+    if len(data)>10:
+        return 10
+    else:
+        return len(data)
+
+
+def display_LB(data):
+    # displays leaderboard
+    print("\n***************  LEADERBOARD  ***************\n")
+    for x in range(no_in_LB(data)):
+        print(f"{x + 1:3}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']} = {data[x]['percentage']}%\n")
+
+
+def leaderboard(file):
     data = open_read(f_name)
     with_numbers = to_integer(data)
     in_order = sort_data(with_numbers)
@@ -383,25 +405,16 @@ def leaderboard():
     open_write('leaderboard.csv', in_order)
 
 
-f_name = "scores.csv"
-field_names = ['username', 'score', 'out_of', 'percentage']
+# ----- play game
 
-# Restrict score save to 5 or more rounds
-if max_rounds >= 5:
-    # If user wants to log their scores
-    msg1 = "Would you like to save your score?"
+play_again = True
+while play_again:
+    max_rounds = no_of_rounds()
+    score, qs_txt = play(chars_left, qs_txt)
+    p_cent = result(score, qs_txt)
+    f_name = scores(f_name, field_names)
+    leaderboard(f_name)
+    play_again = ask_YN("Would you like to play again?")
 
-    save_score = ask_YN(msg1)
 
-    if save_score:
-        username = input("\nEnter a username: ")
-        username = limit(username, 10)
-        new_data = {'username': username, 'score': score, 'out_of': max_rounds, 'percentage': p_cent}
-        log_score(f_name, new_data)
-
-else:
-    print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
-
-# Display leaderboard
-leaderboard()
 
