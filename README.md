@@ -3,7 +3,7 @@
 *authors:*
 [Katarzyna Sowka](https://www.linkedin.com/in/k-sowka/) 
 ([katsowka](https://github.com/katsowka)),
-[Emma Jourzac](https://www.linkedin.com/in/emma-jourzac-1226601/) (jourzy)
+[Emma Jourzac](https://www.linkedin.com/in/emma-jourzac/) (jourzy)
 
 - final project for the CFG Python and Apps Kickstarter course
 - \> \> won top prize! \<\<
