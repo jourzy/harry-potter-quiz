@@ -44,7 +44,6 @@ def ask_YN(msg = ""):
             print("Your response is not clear, try again. ")
 
 
-
 # -----  all question types
 
 # format of each question:
@@ -97,7 +96,7 @@ def is_house(chars):
             ind += 1
         else:
             break
-    char = chars_left[ind]
+    char = chars[ind]
     # setting rand_house to have 2 in 5 chance of being correct
     rand_house = rd.choice(all_values['house']+[char['house']])
     question = f"Is {char['name']} in {rand_house} house?"
@@ -115,7 +114,7 @@ def is_patronus(chars):
             ind += 1
         else:
             break
-    char = chars_left[ind]
+    char = chars[ind]
     # setting rand_patronus to have about 1 in 3 chance of being correct
     rand_patronus = rd.choice(rd.sample(all_values['patronus'], k=3) + [char['patronus']])
     question = f"{char['name']}'s patronus is a/an: {rand_patronus}"
@@ -172,9 +171,90 @@ def is_wand_wood(chars):
     actual = rand_wand_wood == char['wand']['wood']
     return [question, given, actual, check_ans(given, actual), ind]
 
+# ----- score functions
+
+def limit(string, max):
+    # if user chooses to save their score they must enter a username
+    # ensures that user only enters a username within the limit (to maintain formatting in leaderboard output)
+    if len(string) > max:
+        string = input(f"Please enter a username that does not exceed {max} characters: ")
+    return string
+
+def open_read(file):
+    # file handling helper function
+    # opens a csv file and reads in the data as a dictionary
+    with open(file, 'r') as csv_file:
+        spreadsheet = csv.DictReader(csv_file)
+        data = []
+        for row in spreadsheet:
+            data.append(row)
+    return data
+
+
+def open_write(file, data):
+    # file handling helper function
+    # opens a csv file and saves the score data in dictionary format
+    with open(file, 'w') as csv_file:
+        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names, lineterminator='\n')
+        spreadsheet.writeheader()
+        spreadsheet.writerows(data)
+
+
+def log_score(file, add_data):
+    # adds the new score data to a csv file if it exists,
+    # otherwise it creates a new file to store the data
+
+    # If file exists......
+    try:
+        data = open_read(file)
+        data.append(add_data)
+        open_write(f_name, data)
+
+    # if the file doesn't exist.....
+    except (IOError, FileNotFoundError) as e:
+        open_write(f_name, add_data)
+
+
+# ----- leaderboard functions
+
+def to_integer(data):
+    # Leaderboard helper function.
+    # Casts values for out_of and percentage to integer, so they can be sorted
+    for each in data:
+        each['percentage'] = int(each['percentage'])
+        each['out_of'] = int(each['out_of'])
+    return data
+
+
+def sort_data(data):
+    # Leaderboard helper function
+    # Sorts the scores by number of rounds column and then by percentage column
+    sorted_data = sorted(sorted(data, key=lambda x: x['out_of'], reverse=True),
+                  key=lambda x: x['percentage'], reverse=True)
+    return sorted_data
+
+
+def display_LB(data):
+    # Leaderboard helper function
+    # displays the leaderboard
+    # formatted so that the data appears clearly in columns
+    print("\n***************  LEADERBOARD  ***************\n")
+    for x in range(len(data)):
+        print(f"{x + 1:3}: {data[x]['username']:12} "
+              f"Score: {data[x]['score']}/{data[x]['out_of']} = {data[x]['percentage']}%\n")
+
+
+def leaderboard(file):
+    # puts together all the functions to sort the data for the leaderboard and display it
+    data = open_read(f_name)
+    with_numbers = to_integer(data)
+    in_order = sort_data(with_numbers)
+    to_LB = in_order[0: min(10, len(data))]
+    display_LB(to_LB)
+    open_write('leaderboard.csv', in_order)
+
 
 # ----- importing and organizing HP characters data to be used in quiz
-
 
 # importing Harry Potter characters data using API
 url = 'https://hp-api.onrender.com/api/characters'
@@ -223,19 +303,24 @@ for key in all_keys:
 
 # ----- setting up for game play (questions types, files to write)
 
-
 # list of question types to be chosen from randomly
 question_types = [is_student, is_staff, is_wizard, is_house, is_patronus, is_alt_name, is_wand_wood]
 
 # for writing question and answers file
 today = datetime.datetime.now()
 date_short = today.strftime("%d-%m-%Y")
-qs_txt = f"\t\t\t>>> Harry Potter Quiz - Your Questions and Answers <<< \n\ndate: {date_short}\n\n"
 
+# for csvs
+f_name = "scores.csv"
+field_names = ['username', 'score', 'out_of', 'percentage']
 
 # ----- game play
 
-def no_of_rounds():
+def play(chars_left):
+
+    # adding quiz data to save to txt file
+    qs_txt = f"\t\t\t>>> Harry Potter Quiz - Your Questions and Answers <<< \n\ndate: {date_short}\n\n"
+
     # asking number of rounds
     while True:
         num = input("\n>>> Welcome to the Harry Potter Characters Quiz! <<< "
@@ -245,9 +330,7 @@ def no_of_rounds():
         else:
             max_rounds = int(num)
             break
-    return max_rounds
-
-def play(chars_left, qs_txt):
+            
     # initializing score and starting round
     score = 0
     round_ = 1
@@ -276,10 +359,9 @@ def play(chars_left, qs_txt):
             chars_left = characters[:]
             rd.shuffle(chars_left)
 
-    return score, qs_txt
 
-def result(score, qs_txt):
     # after final round
+
     end_text = f"\nYou scored {score} out of {max_rounds}."
     p_cent = round(score / max_rounds * 100)
     if p_cent > 75:
@@ -302,49 +384,6 @@ def result(score, qs_txt):
 
     print("\nSee the file HPquiz_qs.txt if you'd like to see your questions and answers.")
 
-    return p_cent
-
-
-f_name = "scores.csv"
-field_names = ['username', 'score', 'out_of', 'percentage']
-
-# ----- score functions
-
-### modify to remove custom text?
-### will need to modify here and a bit more at game end
-def limit(string, max):
-    if len(string) > max:
-        string = input(f"Please enter a username that does not exceed {max} characters: ")
-    return string
-
-def open_read(file):
-    with open(file, 'r') as csv_file:
-        spreadsheet = csv.DictReader(csv_file)
-        data = []
-        for row in spreadsheet:
-            data.append(row)
-    return data
-
-
-def open_write(file, data):
-    with open(file, 'w') as csv_file:
-        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names, lineterminator='\n')
-        spreadsheet.writeheader()
-        spreadsheet.writerows(data)
-
-
-def log_score(file, add_data):
-    # If file exists......
-    try:
-        data = open_read(file)
-        data.append(add_data)
-        open_write(f_name, data)
-
-    # if the file doesn't exist:
-    except (IOError, FileNotFoundError) as e:
-        open_write(f_name, add_data)
-
-def scores(file, fieldnames):
     # Restrict score save to 5 or more rounds
     if max_rounds >= 5:
         # If user wants to log their scores
@@ -361,58 +400,13 @@ def scores(file, fieldnames):
     else:
         print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
 
-    return file
-
-# ----- leaderboard functions
-
-def to_integer(data):
-    # Leaderboard helper function.
-    # Casts values for out_of and percentage to integer so they can be sorted
-    for each in data:
-        each['percentage'] = int(each['percentage'])
-        each['out_of'] = int(each['out_of'])
-    return data
-
-
-def sort_data(data):
-    # Leaderboard helper function
-    # Sorts the scores by number of rounds column and then by percentage column
-    sorted_data = sorted(sorted(data, key=lambda x: x['out_of'], reverse=True), key=lambda x: x['percentage'], reverse=True)
-    return sorted_data
-
-
-def no_in_LB(data):
-    # Leaderboard helper function
-    # Ensures that the leaderboard has a maximum of 10 entries
-    if len(data)>10:
-        return 10
-    else:
-        return len(data)
-
-
-def display_LB(data):
-    # displays leaderboard
-    print("\n***************  LEADERBOARD  ***************\n")
-    for x in range(no_in_LB(data)):
-        print(f"{x + 1:3}: {data[x]['username']:12} Score: {data[x]['score']}/{data[x]['out_of']} = {data[x]['percentage']}%\n")
-
-
-def leaderboard(file):
-    data = open_read(f_name)
-    with_numbers = to_integer(data)
-    in_order = sort_data(with_numbers)
-    display_LB(in_order)
-    open_write('leaderboard.csv', in_order)
 
 
 # ----- play game
 
 play_again = True
 while play_again:
-    max_rounds = no_of_rounds()
-    score, qs_txt = play(chars_left, qs_txt)
-    p_cent = result(score, qs_txt)
-    f_name = scores(f_name, field_names)
+    play(chars_left)
     leaderboard(f_name)
     play_again = ask_YN("Would you like to play again?")
 
