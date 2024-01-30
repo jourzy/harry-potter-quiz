@@ -207,7 +207,7 @@ def is_patronus(chars):
     char = chars[ind]
     # setting rand_patronus to have about 1 in 3 chance of being correct
     rand_patronus = rd.choice(rd.sample(all_values['patronus'], k=3) + [char['patronus']])
-    question = f"Is {char['name']}'s patronus a/an {rand_patronus}"
+    question = f"Is {char['name']}'s patronus a/an {rand_patronus}?"
     given = ask_YN("QUESTION: " + question)
     confirm_answer(given)
     actual = char['patronus'] == rand_patronus
