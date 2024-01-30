@@ -5,7 +5,8 @@ import requests as rq
 import datetime
 import csv
 
-# ----- basic helper functions
+
+# ----- helper functions
 
 def ask_TF():
     # asks for true or false input until a clear answer is provided, returns choice as boolean
@@ -43,10 +44,7 @@ def ask_YN(msg = ""):
         else:
             print("Your response is not clear, try again. ")
 
-
-
-
-# ----- score functions
+# -- score functions
 
 def limit(string, max):
     # if user chooses to save their score they must enter a username
@@ -90,7 +88,7 @@ def log_score(file, add_data):
         open_write(f_name, add_data)
 
 
-# ----- leaderboard functions
+# -- leaderboard functions
 
 def to_integer(data):
     # Leaderboard helper function.
@@ -127,6 +125,7 @@ def leaderboard(file):
     to_LB = in_order[0: min(10, len(data))]
     display_LB(to_LB)
     open_write('leaderboard.csv', in_order)
+
 
 # -----  all question types
 
