@@ -21,16 +21,6 @@ def ask_TF():
         else:
             print("Your response is not clear, try again. ")
 
-def check_ans(given, actual):
-    # compares the given response to the actual answer,
-    # returns bool stating if response is correct
-    if given == actual:
-        print("\t>>> Correct! :D")
-        return True
-    else:
-        print("\t>>> Sorry, wrong answer. :(")
-        return False
-
 def ask_YN(msg = ""):
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
     # 'msg' is optional string input to be printed before the 'Y/N:' input request
@@ -43,6 +33,23 @@ def ask_YN(msg = ""):
             return False
         else:
             print("Your response is not clear, try again. ")
+
+def confirm_answer(boolean):
+    if boolean == True:
+        print("YOUR ANSWER: Yes")
+    else:
+        print("YOUR ANSWER: No")
+
+def check_ans(given, actual):
+    # compares the given response to the actual answer,
+    # returns bool stating if response is correct
+    if given == actual:
+        print("\t>>> Correct! :D")
+        return True
+    else:
+        print("\t>>> Sorry, wrong answer. :(")
+        return False
+
 
 # -- score functions
 
@@ -145,8 +152,8 @@ def is_student(chars):
     # asks if a given character is a Hogwarts students, True or False
     char = chars[0]
     question = f"Is {char['name']} a student at Hogwarts?"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = char['hogwartsStudent']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -155,8 +162,8 @@ def is_staff(chars):
     # asks if a given character is a Hogwarts staff member, True or False
     char = chars[0]
     question = f"Is {char['name']} a staff member at Hogwarts?"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = char['hogwartsStaff']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -165,8 +172,8 @@ def is_wizard(chars):
     # asks if a given character is a wizard, True or False
     char = chars[0]
     question = f"Is {char['name']} a wizard?"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = char['wizard']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -183,8 +190,8 @@ def is_house(chars):
     # setting rand_house to have 2 in 5 chance of being correct
     rand_house = rd.choice(all_values['house']+[char['house']])
     question = f"Is {char['name']} in {rand_house} house?"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = char['house'] == rand_house
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -200,9 +207,9 @@ def is_patronus(chars):
     char = chars[ind]
     # setting rand_patronus to have about 1 in 3 chance of being correct
     rand_patronus = rd.choice(rd.sample(all_values['patronus'], k=3) + [char['patronus']])
-    question = f"{char['name']}'s patronus is a/an: {rand_patronus}"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    question = f"Is {char['name']}'s patronus a/an {rand_patronus}"
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = char['patronus'] == rand_patronus
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -218,9 +225,9 @@ def is_alt_name(chars):
     char = chars[ind]
     # setting rand_alt_name to have about 1 in 2 chance of being correct
     rand_alt_name = rd.choice(rd.choice(all_values['alternate_names'])+char['alternate_names'])
-    question = f"One of {char['name']}'s alternate names is: {rand_alt_name}"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    question = f"Does {char['name']} have an alternate name of {rand_alt_name}?"
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = rand_alt_name in char['alternate_names']
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -248,9 +255,9 @@ def is_wand_wood(chars):
 
     # rand_wand_wood has 1 in 2 chance of being correct
     rand_wand_wood = rd.choice([other_wand_wood, char['wand']['wood']])
-    question = f"The wood type of {char['name']}'s wand is: {rand_wand_wood}"
-    print("QUESTION: " + question)
-    given = ask_TF()
+    question = f"Is {char['name']}'s wand made of {rand_wand_wood}?"
+    given = ask_YN("QUESTION: " + question)
+    confirm_answer(given)
     actual = rand_wand_wood == char['wand']['wood']
     return [question, given, actual, check_ans(given, actual), ind]
 
