@@ -131,7 +131,7 @@ def leaderboard(file):
     in_order = sort_data(with_numbers)
     to_LB = in_order[0: min(10, len(data))]
     display_LB(to_LB)
-    open_write('leaderboard.csv', in_order)
+    open_write('leaderboard.csv', to_LB)
 
 
 # -----  all question types
