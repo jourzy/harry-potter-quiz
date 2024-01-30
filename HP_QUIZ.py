@@ -26,7 +26,7 @@ def ask_YN(msg = ""):
     # 'msg' is optional string input to be printed before the 'Y/N:' input request
     while True:
         print(msg, end=" ")
-        ans = input("Y/N: ").upper()
+        ans = input("Y / N : ").upper()
         if ('Y' in ans) and not ('N' in ans):
             return True
         elif ('N' in ans) and not ('Y' in ans):
