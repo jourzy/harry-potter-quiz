@@ -8,18 +8,6 @@ import csv
 
 # ----- helper functions
 
-def ask_TF():
-    # asks for true or false input until a clear answer is provided, returns choice as boolean
-    while True:
-        ans = input("Enter 'T' for True or 'F' for false: ").upper()
-        if ('T' in ans) and not ('F' in ans):
-            print("YOUR ANSWER: True")
-            return True
-        elif ('F' in ans) and not ('T' in ans):
-            print("YOUR ANSWER: False")
-            return False
-        else:
-            print("Your response is not clear, try again. ")
 
 def ask_YN(msg = ""):
     # asks for yes/no input until a clear answer is provided, returns choice as boolean
@@ -355,7 +343,17 @@ def play(chars_left):
 
         q, given, actual, bool, ind = question(chars_left)
 
-        qs_add = f"{round_}. {q}\n\t\tyour answer: {str(given)}\n\t\tcorrect answer: {str(actual)}\n\n"
+        if given == True:
+            given = "Yes"
+        else:
+            given = "No"
+
+        if actual == True:
+            actual = "Yes"
+        else:
+            actual = "No"
+
+        qs_add = f"{round_}. {q}\n\t\tyour answer: {given}\n\t\tcorrect answer: {actual}\n\n"
         qs_txt += qs_add
 
         if bool:
