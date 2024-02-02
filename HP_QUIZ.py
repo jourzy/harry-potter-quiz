@@ -22,11 +22,13 @@ def ask_YN(msg = ""):
         else:
             print("Your response is not clear, try again. ")
 
+
 def confirm_answer(boolean):
     if boolean == True:
         print("YOUR ANSWER: Yes")
     else:
         print("YOUR ANSWER: No")
+
 
 def check_ans(given, actual):
     # compares the given response to the actual answer,
@@ -41,12 +43,14 @@ def check_ans(given, actual):
 
 # -- score functions
 
-def limit(string, max):
+
+def limit(string, max=10):
     # if user chooses to save their score they must enter a username
     # ensures that user only enters a username within the limit (to maintain formatting in leaderboard output)
     if len(string) > max:
         string = input(f"Please enter a username that does not exceed {max} characters: ")
     return string
+
 
 def open_read(file):
     # file handling helper function
@@ -84,6 +88,7 @@ def log_score(file, add_data):
 
 
 # -- leaderboard functions
+
 
 def to_integer(data):
     # Leaderboard helper function.
