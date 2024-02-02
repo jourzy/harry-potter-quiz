@@ -371,8 +371,10 @@ def play(chars_left):
 
 # ----- play game
 
-play_again = True
-while play_again:
+while True:
     play(chars_left)
     leaderboard(f_name)
     play_again = ask_YN("Would you like to play again?")
+    if not play_again:
+        print("Bye, see you next time!")
+        break
