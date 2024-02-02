@@ -10,8 +10,9 @@ import csv
 
 
 def ask_YN(msg = ""):
-    # asks for yes/no input until a clear answer is provided, returns choice as boolean
-    # 'msg' is optional string input to be printed before the 'Y/N:' input request
+    # asks for yes/no input until a clear answer is provided,
+    # returns choice as boolean
+    # 'msg' is optional string to be printed before the 'Y/N:'
     while True:
         print(msg, end=" ")
         ans = input("Y / N : ").upper()
@@ -35,12 +36,15 @@ def check_ans(given, actual):
 
 # -- score functions
 
-def limit(string, max):
+
+def limit(string, max=10):
     # if user chooses to save their score they must enter a username
-    # ensures that user only enters a username within the limit (to maintain formatting in leaderboard output)
+    # ensures that user only enters a username within the limit
     if len(string) > max:
-        string = input(f"Please enter a username that does not exceed {max} characters: ")
+        string = input(f"Please enter a username that does not exceed "
+                       f"{max} characters: ")
     return string
+
 
 def open_read(file):
     # file handling helper function
@@ -57,7 +61,8 @@ def open_write(file, data):
     # file handling helper function
     # opens a csv file and saves the score data in dictionary format
     with open(file, 'w') as csv_file:
-        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names, lineterminator='\n')
+        spreadsheet = csv.DictWriter(csv_file, fieldnames=field_names,
+                                     lineterminator='\n')
         spreadsheet.writeheader()
         spreadsheet.writerows(data)
 
@@ -79,9 +84,11 @@ def log_score(file, add_data):
 
 # -- leaderboard functions
 
+
 def to_integer(data):
     # Leaderboard helper function.
-    # Casts values for out_of and percentage to integer, so they can be sorted
+    # Casts values for out_of and percentage to integer,
+    # so they can be sorted
     for each in data:
         each['percentage'] = int(each['percentage'])
         each['out_of'] = int(each['out_of'])
@@ -119,9 +126,7 @@ def leaderboard(file):
 # -----  all question types
 
 # format of each question:
-
 # INPUT: lst (shuffled list of remaining characters or full list of characters)
-
 # OUTPUTS:
 # str ('question' being asked)
 # str or bool (the answer 'given' by user)
@@ -131,7 +136,7 @@ def leaderboard(file):
 
 
 def is_student(chars):
-    # asks if a given character is a Hogwarts students, True or False
+    # asks if a given character is a Hogwarts students
     char = chars[0]
     question = f"Is {char['name']} a student at Hogwarts?"
     given = ask_YN(question)
@@ -140,7 +145,7 @@ def is_student(chars):
 
 
 def is_staff(chars):
-    # asks if a given character is a Hogwarts staff member, True or False
+    # asks if a given character is a Hogwarts staff member
     char = chars[0]
     question = f"Is {char['name']} a staff member at Hogwarts?"
     given = ask_YN(question)
@@ -149,7 +154,7 @@ def is_staff(chars):
 
 
 def is_wizard(chars):
-    # asks if a given character is a wizard, True or False
+    # asks if a given character is a wizard
     char = chars[0]
     question = f"Is {char['name']} a wizard?"
     given = ask_YN(question)
@@ -158,7 +163,7 @@ def is_wizard(chars):
 
 
 def is_house(chars):
-    # asks if a given character belongs to a particular Hogwarts House, True or False
+    # asks if a given character belongs to a particular Hogwarts House
     ind = 0
     while True:
         if chars[ind]['house'] == '':
@@ -175,7 +180,7 @@ def is_house(chars):
 
 
 def is_patronus(chars):
-    # asks if a given patronus belongs to a particular wizard, True or False
+    # asks if a given patronus belongs to a particular wizard
     ind = 0
     while True:
         if chars[ind]['patronus'] == '':
@@ -192,7 +197,7 @@ def is_patronus(chars):
 
 
 def is_alt_name(chars):
-    # asks if a given alternate name is that of a particular character, True or False
+    # asks if a given alternate name is that of a particular character
     ind = 0
     while True:
         if chars[ind]['alternate_names'] == []:
@@ -201,7 +206,8 @@ def is_alt_name(chars):
             break
     char = chars[ind]
     # setting rand_alt_name to have about 1 in 2 chance of being correct
-    rand_alt_name = rd.choice(rd.choice(all_values['alternate_names'])+char['alternate_names'])
+    rand_alt_name = rd.choice(rd.choice(all_values['alternate_names'])
+                              +char['alternate_names'])
     question = f"Does {char['name']} have an alternate name of {rand_alt_name}?"
     given = ask_YN(question)
     actual = rand_alt_name in char['alternate_names']
@@ -209,7 +215,7 @@ def is_alt_name(chars):
 
 
 def is_wand_wood(chars):
-    # asks if a given wood type is used in a particular wizard's wand, True or False
+    # asks if a given wood type is used in a particular wizard's wand
     chs = chars[:]
     rd.shuffle(chs)
 
@@ -297,7 +303,7 @@ date_short = today.strftime("%d-%m-%Y")
 f_name = "scores.csv"
 field_names = ['username', 'score', 'out_of', 'percentage']
 
-# ----- game play
+# ----- each game
 
 def play(chars_left):
 
@@ -392,7 +398,6 @@ def play(chars_left):
 
     else:
         print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
-
 
 
 # ----- play game
