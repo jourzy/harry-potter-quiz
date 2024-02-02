@@ -315,7 +315,7 @@ date_short = today.strftime("%d-%m-%Y")
 f_name = "scores.csv"
 field_names = ['username', 'score', 'out_of', 'percentage']
 
-# ----- game play
+# ----- each game
 
 def play(chars_left):
 
