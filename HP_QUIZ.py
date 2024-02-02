@@ -22,12 +22,6 @@ def ask_YN(msg = ""):
         else:
             print("Your response is not clear, try again. ")
 
-def confirm_answer(boolean):
-    if boolean == True:
-        print("YOUR ANSWER: Yes")
-    else:
-        print("YOUR ANSWER: No")
-
 def check_ans(given, actual):
     # compares the given response to the actual answer,
     # returns bool stating if response is correct
@@ -140,8 +134,7 @@ def is_student(chars):
     # asks if a given character is a Hogwarts students, True or False
     char = chars[0]
     question = f"Is {char['name']} a student at Hogwarts?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = char['hogwartsStudent']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -150,8 +143,7 @@ def is_staff(chars):
     # asks if a given character is a Hogwarts staff member, True or False
     char = chars[0]
     question = f"Is {char['name']} a staff member at Hogwarts?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = char['hogwartsStaff']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -160,8 +152,7 @@ def is_wizard(chars):
     # asks if a given character is a wizard, True or False
     char = chars[0]
     question = f"Is {char['name']} a wizard?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = char['wizard']
     return [question, given, actual, check_ans(given, actual), 0]
 
@@ -178,8 +169,7 @@ def is_house(chars):
     # setting rand_house to have 2 in 5 chance of being correct
     rand_house = rd.choice(all_values['house']+[char['house']])
     question = f"Is {char['name']} in {rand_house} house?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = char['house'] == rand_house
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -196,8 +186,7 @@ def is_patronus(chars):
     # setting rand_patronus to have about 1 in 3 chance of being correct
     rand_patronus = rd.choice(rd.sample(all_values['patronus'], k=3) + [char['patronus']])
     question = f"Is {char['name']}'s patronus a/an {rand_patronus}?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = char['patronus'] == rand_patronus
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -214,8 +203,7 @@ def is_alt_name(chars):
     # setting rand_alt_name to have about 1 in 2 chance of being correct
     rand_alt_name = rd.choice(rd.choice(all_values['alternate_names'])+char['alternate_names'])
     question = f"Does {char['name']} have an alternate name of {rand_alt_name}?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = rand_alt_name in char['alternate_names']
     return [question, given, actual, check_ans(given, actual), ind]
 
@@ -244,8 +232,7 @@ def is_wand_wood(chars):
     # rand_wand_wood has 1 in 2 chance of being correct
     rand_wand_wood = rd.choice([other_wand_wood, char['wand']['wood']])
     question = f"Is {char['name']}'s wand made of {rand_wand_wood}?"
-    given = ask_YN("QUESTION: " + question)
-    confirm_answer(given)
+    given = ask_YN(question)
     actual = rand_wand_wood == char['wand']['wood']
     return [question, given, actual, check_ans(given, actual), ind]
 
