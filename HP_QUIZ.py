@@ -23,6 +23,7 @@ def ask_YN(msg = ""):
         else:
             print("Your response is not clear, try again. ")
 
+
 def check_ans(given, actual):
     # compares the given response to the actual answer,
     # returns bool stating if response is correct
@@ -251,7 +252,6 @@ response = rq.get(url).json() # two steps, request and convert, result is list
 
 n_characters = len(response)
 
-
 # list of all characters with chosen attributes (keys)
 characters = []
 for x in range(n_characters):
@@ -269,16 +269,13 @@ for x in range(n_characters):
     }
     characters.append(character)
 
-
 # list of available attributes (keys) for each character
 all_keys = characters[0].keys()
 
-
 # copying characters list and shuffling to randomize
-# will remove characters after being used in a question
+# main characters will be removed after being used in a question
 chars_left = characters[:]
 rd.shuffle(chars_left)
-
 
 # dictionary with sets of all possible values for each attribute (key), excluding empty
 all_values = {}
@@ -303,11 +300,13 @@ date_short = today.strftime("%d-%m-%Y")
 f_name = "scores.csv"
 field_names = ['username', 'score', 'out_of', 'percentage']
 
+
 # ----- each game
+
 
 def play(chars_left):
 
-    # adding quiz data to save to txt file
+    # adding header to questions file
     qs_txt = f"\t\t\t>>> Harry Potter Quiz - Your Questions and Answers <<< \n\ndate: {date_short}\n\n"
 
     # asking number of rounds
@@ -325,34 +324,36 @@ def play(chars_left):
     round_ = 1
 
     # creating selection of questions
-    questions = rd.choices(question_types, k = max_rounds)
+    questions = rd.choices(question_types, k=max_rounds)
 
-    # going through questions
+    # going through each question
     for question in questions:
+
+        # rounds text
         if round_ == max_rounds:
             print(f"\n***** Round {round_} - Last One! *****")
         else:
             print(f"\n***** Round {round_} *****")
 
-        q, given, actual, bool, ind = question(chars_left)
+        # processing the question
+        q, given, actual, is_correct, ind = question(chars_left)
 
-        if given == True:
-            given = "Yes"
-        else:
-            given = "No"
+        # adding question text to questions file
+        if given == True: given = "Yes"
+        else: given = "No"
 
-        if actual == True:
-            actual = "Yes"
-        else:
-            actual = "No"
+        if actual == True: actual = "Yes"
+        else: actual = "No"
 
         qs_add = f"{round_}. {q}\n\t\tyour answer: {given}\n\t\tcorrect answer: {actual}\n\n"
         qs_txt += qs_add
 
-        if bool:
+        # updating score and round
+        if is_correct:
             score += 1
         round_ += 1
 
+        # removing main character used in question
         chars_left.pop(ind)
         if len(chars_left) < 100:
             chars_left = characters[:]
@@ -373,14 +374,12 @@ def play(chars_left):
     else:
         end_text += ("\nHave you even read Harry Potter? Poor effort young wizard. "
                      "\nGo back to Hogwarts School of Witchcraft and Wizardry for a catch up class!")
-
     print(end_text)
 
     qs_txt += f"{end_text}"
 
     with open('HPquiz_qs.txt', 'w') as file:
         file.write(qs_txt)
-
     print("\nSee the file HPquiz_qs.txt if you'd like to see your questions and answers.")
 
     # Restrict score save to 5 or more rounds
@@ -400,7 +399,7 @@ def play(chars_left):
         print("\nIf you play five rounds or more you have a chance to see your score on the leaderboard!")
 
 
-# ----- play game
+### ----- play game (is this called 'body'? 'main'? + add "goodbye statement" (see below)
 
 play_again = True
 while play_again:
@@ -408,5 +407,14 @@ while play_again:
     leaderboard(f_name)
     play_again = ask_YN("Would you like to play again?")
 
+""" (from Trinket file)
+while True:
+    play(chars_left)
+    leaderboard(f_name)
+    play_again = ask_YN("Would you like to play again?")
+    if not play_again:
+        print("Bye, see you next time!")
+        break
+"""
 
 
